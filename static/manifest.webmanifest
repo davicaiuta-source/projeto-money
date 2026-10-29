@@ -1,0 +1,14 @@
+{
+  "name": "Leitor de Cupom Fiscal",
+  "short_name": "Cupom",
+  "description": "Lê o QR Code da NFC-e e lista os produtos do cupom.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f6f5",
+  "theme_color": "#0f766e",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

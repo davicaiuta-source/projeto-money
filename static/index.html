@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Cupom">
+  <title>Leitor de Cupom</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <button class="icon-btn" id="btn-back" aria-label="Voltar" hidden>
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <h1 id="title">Leitor de Cupom</h1>
+    <button class="icon-btn" id="btn-history" aria-label="Histórico">
+      <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>
+    </button>
+  </header>
+
+  <main>
+    <!-- Leitura -->
+    <section id="view-scan" class="view">
+      <div class="scanner" id="scanner">
+        <video id="video" playsinline muted></video>
+        <div class="frame"><span></span></div>
+        <div class="scanner-idle" id="scanner-idle">
+          <svg viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><rect x="7" y="7" width="4" height="4"/><rect x="13" y="13" width="4" height="4"/><path d="M13 7h4v4M7 13v4h4"/></svg>
+          <p>Aponte a câmera para o QR Code no rodapé do cupom</p>
+        </div>
+        <button class="torch" id="btn-torch" aria-label="Lanterna" hidden>
+          <svg viewBox="0 0 24 24"><path d="M6 2h12l-2 6H8z"/><path d="M8 8v12a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V8"/><path d="M12 12v3"/></svg>
+        </button>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" id="btn-camera">Abrir câmera</button>
+        <label class="btn secondary">
+          Ler de uma foto
+          <input type="file" id="file" accept="image/*" capture="environment" hidden>
+        </label>
+      </div>
+      <p class="hint" id="camera-hint" hidden></p>
+
+      <details class="manual">
+        <summary>Colar o link do QR Code</summary>
+        <form id="form-url">
+          <input type="url" id="input-url" placeholder="https://www.nfce.fazenda..." inputmode="url" autocomplete="off" required>
+          <button class="btn primary" type="submit">Consultar</button>
+        </form>
+      </details>
+    </section>
+
+    <!-- Carregando -->
+    <section id="view-loading" class="view center" hidden>
+      <div class="spinner"></div>
+      <p>Consultando a SEFAZ…</p>
+    </section>
+
+    <!-- Erro -->
+    <section id="view-error" class="view center" hidden>
+      <div class="error-icon">!</div>
+      <p id="error-msg"></p>
+      <a class="btn secondary" id="error-link" target="_blank" rel="noopener" hidden>Abrir no site da SEFAZ</a>
+      <button class="btn primary" id="btn-retry">Ler outro cupom</button>
+    </section>
+
+    <!-- Resultado -->
+    <section id="view-result" class="view" hidden>
+      <div class="summary">
+        <div class="store" id="r-store"></div>
+        <div class="meta" id="r-meta"></div>
+        <div class="total-row">
+          <div>
+            <span class="label">Total</span>
+            <strong id="r-total"></strong>
+          </div>
+          <span class="pill" id="r-count"></span>
+        </div>
+      </div>
+
+      <input type="search" id="r-filter" class="filter" placeholder="Buscar produto…" autocomplete="off">
+      <ul class="items" id="r-items"></ul>
+
+      <div class="bottom-bar">
+        <button class="btn secondary" id="btn-share">Compartilhar</button>
+        <button class="btn secondary" id="btn-csv">Baixar CSV</button>
+        <button class="btn primary" id="btn-new">Novo cupom</button>
+      </div>
+    </section>
+
+    <!-- Histórico -->
+    <section id="view-history" class="view" hidden>
+      <ul class="history" id="h-list"></ul>
+      <p class="empty" id="h-empty">Nenhum cupom lido ainda.</p>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="vendor/jsQR.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
